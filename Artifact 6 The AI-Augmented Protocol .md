@@ -1,4 +1,4 @@
-# **Artifact 7: The AI-Augmented Protocol**
+# **Artifact 6: The AI-Augmented Protocol**
 
 ### **A capstone white paper presenting a new model for market leadership in Web3, powered by a unified Market Intelligence Engine.**
 
