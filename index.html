@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Strategic Moat Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sparkle-button {
+            position: relative;
+            overflow: hidden;
+        }
+        .sparkle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 80%);
+            transform: scale(0);
+            animation: sparkle 0.7s ease-out;
+        }
+        @keyframes sparkle {
+            from { transform: scale(0); opacity: 1; }
+            to { transform: scale(4); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-gray-800/50 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <svg class="h-8 w-8 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                        </svg>
+                        <span class="ml-3 text-xl font-bold text-white">Web3 Strategic Moat Analysis</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">From On-Chain Data to Defensible Strategy</h1>
+                <p class="mt-4 text-lg text-gray-400">Analyze a protocol's competitive landscape and understand its true, defensible moat. This tool provides a data-driven view to answer the most important question: "Why will this project win?"</p>
+            </div>
+
+            <!-- Search Input -->
+            <div class="mt-10 max-w-xl mx-auto">
+                <div class="relative">
+                    <input type="text" id="protocol-search" class="w-full bg-gray-800 border border-gray-700 text-white rounded-lg py-3 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Enter a protocol name (e.g., Uniswap, Aave)...">
+                    <button id="search-button" class="absolute inset-y-0 right-0 flex items-center px-3 bg-cyan-600 hover:bg-cyan-700 rounded-r-lg transition-colors">
+                        <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
+                 <p id="error-message" class="text-red-400 text-center mt-2 hidden"></p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-container" class="mt-12 hidden">
+                <!-- On-Chain Benchmarking -->
+                <div class="fade-in">
+                    <h2 class="text-2xl font-bold text-white mb-6 text-center">On-Chain Benchmarking</h2>
+                    <div id="benchmarking-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                        <!-- Protocol cards will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- AI Analysis Button -->
+                <div id="ai-button-container" class="text-center mt-12 fade-in hidden">
+                    <button id="generate-ai-analysis" class="sparkle-button bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105">
+                        ✨ Generate AI Strategic Analysis
+                    </button>
+                </div>
+
+                <!-- AI Generated Analysis -->
+                 <div id="ai-results-container" class="mt-16 hidden">
+                    <h2 class="text-2xl font-bold text-white mb-2 text-center">✨ AI-Generated Strategic Analysis</h2>
+                    <p class="text-center text-gray-400 mb-6">Powered by the Gemini API</p>
+                    <div id="ai-summary" class="fade-in bg-gray-800/50 p-6 rounded-lg border border-gray-700 mb-8">
+                        <!-- AI summary will be inserted here -->
+                    </div>
+                    <div id="ai-moat-grid" class="fade-in grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                        <!-- AI moat analysis cards will be inserted here -->
+                    </div>
+                </div>
+            </div>
+             <!-- Initial State / Placeholder -->
+            <div id="initial-state" class="mt-12 text-center text-gray-500">
+                <svg class="mx-auto h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                </svg>
+                <p class="mt-4 text-lg">Search for a protocol to begin analysis.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800/50 border-t border-gray-700 mt-12">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-500">
+                <p>&copy; 2025 AI Strategist Portfolio. A demonstration of data-driven strategic analysis.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // NOTE: If you want to use models other than gemini-2.5-flash-preview-05-20, provide an API key here. Otherwise, leave this as-is.
+        const API_KEY = ""; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+        
+        // --- MOCK API & DATA ---
+        // In a real application, this data would come from on-chain data providers like The Graph, Dune Analytics, or Token Terminal.
+        const mockApiData = {
+            'uniswap': {
+                main: { name: 'Uniswap', logo: 'https://raw.githubusercontent.com/Uniswap/interface/main/src/assets/svg/uniswap-logo.svg', tvl: 5.2, volume24h: 1.1, fees24h: 330000 },
+                competitors: [
+                    { name: 'Curve', logo: 'https://curve.fi/logo-square.svg', tvl: 3.8, volume24h: 0.4, fees24h: 40000 },
+                    { name: 'Pancakeswap', logo: 'https://pancakeswap.finance/logo.png', tvl: 2.5, volume24h: 0.3, fees24h: 75000 }
+                ]
+            },
+            'aave': {
+                main: { name: 'Aave', logo: 'https://aave.com/aave-logo.svg', tvl: 6.5, volume24h: 0.2, fees24h: 50000 },
+                competitors: [
+                    { name: 'Compound', logo: 'https://compound.finance/compound-logo.svg', tvl: 2.9, volume24h: 0.1, fees24h: 25000 },
+                    { name: 'MakerDAO', logo: 'https://makerdao.com/maker-logomark.svg', tvl: 5.1, volume24h: 0.05, fees24h: 30000 }
+                ]
+            }
+        };
+
+        let currentProtocolData = null;
+
+        // --- DOM ELEMENTS ---
+        const searchInput = document.getElementById('protocol-search');
+        const searchButton = document.getElementById('search-button');
+        const resultsContainer = document.getElementById('results-container');
+        const initialState = document.getElementById('initial-state');
+        const errorMessage = document.getElementById('error-message');
+        const benchmarkingGrid = document.getElementById('benchmarking-grid');
+        const aiButtonContainer = document.getElementById('ai-button-container');
+        const generateAiButton = document.getElementById('generate-ai-analysis');
+        const aiResultsContainer = document.getElementById('ai-results-container');
+        const aiSummary = document.getElementById('ai-summary');
+        const aiMoatGrid = document.getElementById('ai-moat-grid');
+
+        // --- EVENT LISTENERS ---
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+        generateAiButton.addEventListener('click', generateAiAnalysis);
+
+        // --- FUNCTIONS ---
+
+        /**
+         * Simulates fetching data from an API based on search query.
+         */
+        function fetchProtocolData(query) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const data = mockApiData[query.toLowerCase()];
+                    resolve(data || null);
+                }, 500); // Simulate network delay
+            });
+        }
+        
+        /**
+         * Main function to handle the search logic.
+         */
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            if (!query) return;
+
+            setLoadingState(true);
+            const data = await fetchProtocolData(query);
+            setLoadingState(false);
+
+            if (data) {
+                currentProtocolData = data;
+                displayBenchmarkResults(data);
+                resultsContainer.classList.remove('hidden');
+                aiButtonContainer.classList.remove('hidden');
+                aiResultsContainer.classList.add('hidden'); // Hide old AI results
+            } else {
+                showError(`No data found for "${query}". Try 'Uniswap' or 'Aave'.`);
+            }
+        }
+
+        /**
+         * Renders the fetched benchmark data to the UI.
+         */
+        function displayBenchmarkResults(data) {
+            benchmarkingGrid.innerHTML = '';
+            const allProtocols = [data.main, ...data.competitors];
+            allProtocols.forEach((protocol, index) => {
+                benchmarkingGrid.innerHTML += createBenchmarkCard(protocol, index === 0);
+            });
+        }
+        
+        /**
+         * Handles the AI analysis generation.
+         */
+        async function generateAiAnalysis() {
+            if (!currentProtocolData) return;
+
+            setAiLoadingState(true);
+            
+            const prompt = createPrompt(currentProtocolData);
+            const payload = createPayload(prompt);
+
+            try {
+                const aiData = await callGeminiApiWithBackoff(payload);
+                displayAiResults(aiData);
+            } catch (error) {
+                console.error("Error generating AI analysis:", error);
+                showError("Failed to generate AI analysis. Please try again.");
+            } finally {
+                setAiLoadingState(false);
+            }
+        }
+
+        /**
+         * Calls the Gemini API with exponential backoff for retries.
+         */
+        async function callGeminiApiWithBackoff(payload, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0) {
+                         const jsonText = result.candidates[0].content.parts[0].text;
+                         return JSON.parse(jsonText);
+                    } else {
+                        throw new Error("Invalid response structure from Gemini API");
+                    }
+
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2; // Exponential backoff
+                }
+            }
+        }
+
+        /**
+         * Creates the prompt for the Gemini API.
+         */
+        function createPrompt(data) {
+            const mainData = JSON.stringify(data.main);
+            const competitorData = JSON.stringify(data.competitors);
+            return `
+                You are a world-class Web3 Strategic Analyst. Your task is to analyze on-chain data for a DeFi protocol and its competitors to generate a strategic moat analysis.
+                
+                Primary Protocol Data: ${mainData}
+                Competitor Data: ${competitorData}
+
+                Based on this data, perform the following two tasks:
+                1.  **Moat Analysis:** For each of the five moat categories (Community & Brand, Network Effects, Capital Efficiency, Technology & Security, Ecosystem & Integrations), provide a score from 1-10 and a concise, insightful analysis (20-30 words) explaining the score.
+                2.  **Strategic Summary:** Write a high-level strategic summary (40-60 words) of the primary protocol's position, followed by a single, actionable key recommendation.
+
+                Return your entire response as a single, valid JSON object. Do not include any text or markdown formatting before or after the JSON object.
+
+                The JSON object must have this exact structure:
+                {
+                  "moatAnalysis": {
+                    "communityAndBrand": { "score": number, "analysis": "string" },
+                    "networkEffects": { "score": number, "analysis": "string" },
+                    "capitalEfficiency": { "score": number, "analysis": "string" },
+                    "technologyAndSecurity": { "score": number, "analysis": "string" },
+                    "ecosystemAndIntegrations": { "score": number, "analysis": "string" }
+                  },
+                  "strategicSummary": {
+                    "summary": "string",
+                    "recommendation": "string"
+                  }
+                }
+            `;
+        }
+
+        /**
+         * Creates the payload for the Gemini API call.
+         */
+        function createPayload(prompt) {
+             return {
+                contents: [{ role: "user", parts: [{ text: prompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                }
+            };
+        }
+
+        /**
+         * Renders the AI-generated results to the UI.
+         */
+        function displayAiResults(aiData) {
+            aiSummary.innerHTML = `
+                <h3 class="text-xl font-bold text-white mb-2">Strategic Summary</h3>
+                <p class="text-gray-300 mb-4">${aiData.strategicSummary.summary}</p>
+                <h4 class="text-lg font-semibold text-cyan-400 mb-1">Key Recommendation</h4>
+                <p class="text-gray-300">${aiData.strategicSummary.recommendation}</p>
+            `;
+
+            aiMoatGrid.innerHTML = '';
+            const moatKeys = Object.keys(aiData.moatAnalysis);
+            moatKeys.forEach(key => {
+                const moat = aiData.moatAnalysis[key];
+                const title = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+                aiMoatGrid.innerHTML += createMoatCard(title, moat.score, moat.analysis);
+            });
+
+            aiResultsContainer.classList.remove('hidden');
+        }
+
+        // --- UI HELPER FUNCTIONS ---
+
+        function setLoadingState(isLoading) {
+            const icon = isLoading 
+                ? `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`
+                : `<svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>`;
+            searchButton.innerHTML = icon;
+            searchButton.disabled = isLoading;
+            errorMessage.classList.add('hidden');
+            initialState.classList.add('hidden');
+            if (!isLoading) resultsContainer.classList.add('hidden');
+        }
+
+        function setAiLoadingState(isLoading) {
+            generateAiButton.disabled = isLoading;
+            if (isLoading) {
+                generateAiButton.innerHTML = `<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...</span>`;
+            } else {
+                generateAiButton.innerHTML = '✨ Generate AI Strategic Analysis';
+            }
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.remove('hidden');
+            initialState.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+        }
+
+        /**
+         * Creates the HTML for a single protocol benchmark card.
+         */
+        function createBenchmarkCard(protocol, isMain) {
+            const formatCurrency = (value) => value >= 1 ? `$${value.toFixed(1)}B` : `$${(value * 1000).toFixed(0)}M`;
+            const formatFees = (value) => `$${(value / 1000).toFixed(0)}k`;
+            const ringColor = isMain ? 'ring-cyan-500' : 'ring-gray-700';
+            const bgColor = isMain ? 'bg-gray-800' : 'bg-gray-800/50';
+
+            return `
+                <div class="p-6 rounded-lg border border-gray-700 ${bgColor} ring-2 ${isMain ? ringColor : 'ring-transparent'}">
+                    <div class="flex items-center mb-4">
+                        <img src="${protocol.logo}" alt="${protocol.name} logo" class="h-8 w-8 mr-3 bg-white rounded-full p-1" onerror="this.style.display='none'">
+                        <h3 class="text-xl font-bold text-white">${protocol.name} ${isMain ? '<span class="text-xs font-medium text-cyan-400">(Primary)</span>' : ''}</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-400">TVL</span><span class="font-semibold text-white">${formatCurrency(protocol.tvl)}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Volume (24h)</span><span class="font-semibold text-white">${formatCurrency(protocol.volume24h)}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Fees (24h)</span><span class="font-semibold text-white">${formatFees(protocol.fees24h)}</span></div>
+                    </div>
+                </div>`;
+        }
+
+        /**
+         * Creates the HTML for a single moat analysis card.
+         */
+        function createMoatCard(title, score, analysis) {
+            const scoreColor = score >= 8 ? 'text-green-400' : score >= 5 ? 'text-yellow-400' : 'text-red-400';
+            return `
+                <div class="p-6 rounded-lg border border-gray-700 bg-gray-800/50 flex flex-col">
+                    <div class="flex justify-between items-baseline mb-3">
+                        <h4 class="text-lg font-semibold text-white">${title}</h4>
+                        <div class="text-2xl font-bold ${scoreColor}">${score}<span class="text-sm font-medium text-gray-500">/10</span></div>
+                    </div>
+                    <p class="text-gray-400 text-sm flex-grow">${analysis}</p>
+                </div>`;
+        }
+
+    </script>
+</body>
+</html>
